@@ -69,7 +69,7 @@ connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName
 ```	
 	
 Вывести первые 20 полей name без сортировки, по умолчанию выводится и поле _id, если его явно не убрать 
-	```bash
+```bash
 	> db.companies.find({}, {name:1}).limit(20)	
 	{ "_id" : ObjectId("52cdef7c4bab8bd675297d8b"), "name" : "AdventNet" }
 	{ "_id" : ObjectId("52cdef7c4bab8bd675297d8a"), "name" : "Wetpaint" }
@@ -91,9 +91,9 @@ connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName
 	{ "_id" : ObjectId("52cdef7c4bab8bd675297d9d"), "name" : "Joost" }
 	{ "_id" : ObjectId("52cdef7c4bab8bd675297d9e"), "name" : "CBS" }
 	{ "_id" : ObjectId("52cdef7c4bab8bd675297d94"), "name" : "Twitter" }
-	```
-	Убрали _id, теперь выводятся только name 
-	```bash
+```
+Убрали _id, теперь выводятся только name 
+```bash
 	> db.companies.find({}, {name:1, _id: 0}).limit(20)	
 	{ "name" : "AdventNet" }
 	{ "name" : "Wetpaint" }
@@ -115,9 +115,9 @@ connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName
 	{ "name" : "Joost" }
 	{ "name" : "CBS" }
 	{ "name" : "Twitter" }
-	```
-	Выводятся первые 20 полей name по возрастающей
-	```bash
+```
+Выводятся первые 20 полей name по возрастающей
+```bash
 	> db.companies.find({}, {name:1, _id: 0}).sort({name:1}).limit(20) 
 	{ "name" : "(fluff)Friends" }
 	{ "name" : "*faircompanies" }
