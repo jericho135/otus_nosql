@@ -18,8 +18,10 @@ CentOS Linux release 7.7.1908 (Core)
         Product Name: VirtualBox
         Manufacturer: Oracle Corporation
 
+```
+В качестве тренировочного даатсета был выбран датасет companies. 
 
-
+```bash
 [root@localhost tmp]# wget https://raw.githubusercontent.com/ozlerhakan/mongodb-json-files/master/datasets/companies.json
 --2020-10-28 16:43:03--  https://raw.githubusercontent.com/ozlerhakan/mongodb-json-files/master/datasets/companies.json
 Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 151.101.128.133, 151.101.192.133, 151.101.0.133, ...
@@ -27,7 +29,9 @@ Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|151.101.128.
 HTTP request sent, awaiting response... 200 OK
 Length: 78231204 (75M) [text/plain]
 Saving to: ‘companies.json’
-
+```
+Датасет скачан, ниже создается база данных и новая коллекция
+```bash
 [root@localhost tmp]# mongo
 MongoDB shell version v4.2.9
 connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
@@ -39,13 +43,17 @@ connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName
 	switched to db otus
 	> db.createCollection("companies");
 	{ "ok" : 1 }
-
-
+```
+С помощью mongoimport датасет закачивается в созданную коллекцию
+```bash
 [root@localhost tmp]# mongoimport --db otus --collection companies  --file /tmp/companies.json
 2020-10-28T16:50:56.989+0300    connected to: mongodb://localhost/
 2020-10-28T16:51:00.181+0300    [#######################.] otus.companies       74.2MB/74.6MB (99.5%)
 2020-10-28T16:51:00.219+0300    [########################] otus.companies       74.6MB/74.6MB (100.0%)
 2020-10-28T16:51:00.219+0300    18801 document(s) imported successfully. 0 document(s) failed to import.
+```
+Проверка, что данные загрузились в коллекцию 
+```bash
 [root@localhost tmp]# mongo
 	> show dbs;
 	admin   0.000GB
@@ -57,8 +65,8 @@ connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName
 	> show collections;
 	companies
 	> db.companies.find().limit(3);
-	{ "_id" : ObjectId("52cdef7c4bab8bd675297d8b"), "name" : "AdventNet", "permalink" : "abc3", "crunchbase_url" : "http://www.crunchbase.com/company/adventnet", "homepage_url" : "http://adventnet.com", "blog_url" : "", "blog_feed_url" : "", "twitter_username" : "manageengine", "category_code" : "enterprise", "number_of_employees" : 600, "founded_year" : 1996, "deadpooled_year" : 2, "tag_list" : "", "alias_list" : "Zoho ManageEngine ", "email_address" : "pr@adventnet.com", "phone_number" : "925-924-9500", "description" : "Server Management Software", "created_at" : ISODate("2007-05-25T19:24:22Z"), "updated_at" : "Wed Oct 31 18:26:09 UTC 2012", "overview" : "<p>AdventNet is now <a href=\"/company/zoho-manageengine\" title=\"Zoho ManageEngine\" rel=\"nofollow\">Zoho ManageEngine</a>.</p>\n\n<p>Founded in 1996, AdventNet has served a diverse range of enterprise IT, networking and telecom customers.</p>\n\n<p>AdventNet supplies server and network management software.</p>", "image" : { "available_sizes" : [ [ [ 150, 55 ], "assets/images/resized/0001/9732/19732v1-max-150x150.png" ], [ [ 150, 55 ], "assets/images/resized/0001/9732/19732v1-max-250x250.png" ], [ [ 150, 55 ], "assets/images/resized/0001/9732/19732v1-max-450x450.png" ] ] }, "products" : [ ], "relationships" : [ { "is_past" : true, "title" : "CEO and Co-Founder", "person" : { "first_name" : "Sridhar", "last_name" : "Vembu", "permalink" : "sridhar-vembu" } }, { "is_past" : true, "title" : "VP of Business Dev", "person" : { "first_name" : "Neil", "last_name" : "Butani", "permalink" : "neil-butan..."....
-	> db.companies.find({}, {name:1}).limit(20)
+	{ "_id" : ObjectId("52cdef7c4bab8bd675297d8b"), "name" : "AdventNet", "permalink" : "abc3", "crunchbase_url" : "http://www.crunchbase.com/company/adventnet", "homepage_url" : "http://adventnet.com", "blog_url" : "", "blog_feed_url" : "", "twitter_username" : "manageengine", "category_code" : "enterprise", "number_of_employees" : 600, "founded_year" : 1996, "deadpooled_year" : 2, "tag_list" : "", "alias_list" : "Zoho ManageEngine ", "email_address" : "pr@adventnet.com", "phone_number" : "925-924-9500", "description" : "Server Management Software", "created_at" : ISODate("2007-05-25T19:24:22Z"), "updated_at" : "Wed Oct 31 18:26:09 UTC 2012", "overview" : "<p>AdventNet is now <a href=\"/company/zoho-manageengine\" title=\"Zoho ManageEngine\" rel=\"nofollow\">Zoho ManageEngine</a>.</p>\n\n<p>Founded in 1996, AdventNet has served a diverse range of enterprise IT, networking and telecom customers.</p>\n\n<p>AdventNet supplies server and network management software.</p>", "image" : { "available_sizes" : [ [ [ 150, 55 ], "assets/images/resized/0001/9732/19732v1-max-150x150.png" ], [ [ 150, 55 ], "assets/images/resized/0001/9732/19732v1-max-250x250.png" ], [ [ 150, 55 ], "assets/images/resized/0001/9732/19732v1-max-450x450.png" ] ] }, "products" : [ ], "relationships" : [ { "is_past" : true, "title" : "CEO and Co-Founder", "person" : { "first_name" : "Sridhar", "last_name" : "Vembu", "permalink" : "sridhar-vembu" } }, { "is_past" : true, "title" : "VP of Business Dev", "person" : { "first_name" : "Neil", "last_name" : "Butani", "permalink" : "neil-butan...".... и т.д.
+	> db.companies.find({}, {name:1}).limit(20)		*Вывести первые 20 полей name без сортировки, по умолчанию выводится и поле _id, если его явно не убрать * 
 	{ "_id" : ObjectId("52cdef7c4bab8bd675297d8b"), "name" : "AdventNet" }
 	{ "_id" : ObjectId("52cdef7c4bab8bd675297d8a"), "name" : "Wetpaint" }
 	{ "_id" : ObjectId("52cdef7c4bab8bd675297d8c"), "name" : "Zoho" }
@@ -79,7 +87,7 @@ connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName
 	{ "_id" : ObjectId("52cdef7c4bab8bd675297d9d"), "name" : "Joost" }
 	{ "_id" : ObjectId("52cdef7c4bab8bd675297d9e"), "name" : "CBS" }
 	{ "_id" : ObjectId("52cdef7c4bab8bd675297d94"), "name" : "Twitter" }
-	> db.companies.find({}, {name:1, _id: 0}).limit(20)
+	> db.companies.find({}, {name:1, _id: 0}).limit(20)	*убрали _id, теперь выводятся только name *
 	{ "name" : "AdventNet" }
 	{ "name" : "Wetpaint" }
 	{ "name" : "Zoho" }
@@ -100,7 +108,7 @@ connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName
 	{ "name" : "Joost" }
 	{ "name" : "CBS" }
 	{ "name" : "Twitter" }
-	> db.companies.find({}, {name:1, _id: 0}).sort({name:1}).limit(20)
+	> db.companies.find({}, {name:1, _id: 0}).sort({name:1}).limit(20) *Выводятся первые 20 полей name по возрастающей*
 	{ "name" : "(fluff)Friends" }
 	{ "name" : "*faircompanies" }
 	{ "name" : "/community" }
@@ -121,7 +129,7 @@ connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName
 	{ "name" : "12seconds" }
 	{ "name" : "12snap Mobile Advertising and Entertainment" }
 	{ "name" : "1366 Technologies" }
-	> db.companies.find({}, {name:1, _id: 0}).sort({name:-1}).limit(20)
+	> db.companies.find({}, {name:1, _id: 0}).sort({name:-1}).limit(20) *Выводятся первые 20 полей name по убывающей*
 	{ "name" : "zyntroPICS" }
 	{ "name" : "zweitgeist" }
 	{ "name" : "zip2" }
@@ -142,12 +150,14 @@ connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName
 	{ "name" : "youCharades" }
 	{ "name" : "yoonew" }
 	{ "name" : "yiid" }
-	> db.companies.find({name: "1000MIKES"})
+	> db.companies.find({name: "1000MIKES"})	*Вывести весь документ, где name = "1000MIKES" <=> SELECT * FROM companies WHERE name = '1000MIKES'*
 	{ "_id" : ObjectId("52cdef7e4bab8bd67529a6f8"), "name" : "1000MIKES", "permalink" : "1000mikes", "crunchbase_url" : "http://www.crunchbase.com/company/1000mikes", "homepage_url" : "http://www.1000mikes.com", "blog_url" : "http://blog.1000mikes.com", "blog_feed_url" : "http://blog.1000mikes.com/de/index.rdf", "twitter_username" : null, "category_code" : "web", "number_of_employees" : 5, "founded_year" : 2007, "founded_month" : 11, "founded_day" : 1, "deadpooled_year" : null, "deadpooled_month" : null, "deadpooled_day" : null, "deadpooled_url" : null, "tag_list" : "audio-radio-live", "alias_list" : null, "email_address" : "info@1000mikes.com", "phone_number" : "+49 40 8797691-0", "description" : null, "created_at" : "Sun Dec 07 21:26:02 UTC 2008", "updated_at" : "Sun Dec 14 18:25:49 UTC 2008", "overview" : "<p>1000MIKES is Radio 2.0. Its users run their own live and interactive radio channels. They broadcast directly via their phone, or via the Internet using the 1000MIKES web phone that allows to stream with high audio quality. Past broadcasts can be put under a Creative Commons license and are available via RSS as a podcast or in the 1000MIKES archive. </p>\n\n<p>1000MIKES started April 2008 with its German version. It is very popular in Germany for live Sport coverage where fans broadcast themselves from soccer, ice hockey and basketball games. Also very popular are talk shows, where guests call in to the show, or event radios. </p>\n\n<p>Since autumn 2008, an English version is available. </p>", "image" : { "available_sizes" : [ [ [ 149, 150 ], "assets/images/resized/0003/1233/31233v2-max-150x150.jpg" ], [ [ 169, 170 ], "assets/images/resized/0003/1233/31233v2-max-250x250.jpg" ], [ [ 169, 170 ], "assets/images/resized/0003/1233/31233v2-max-450x450.jpg" ] ], "attribution" : null }, "products" : [ ], "relationships" : [ { "is_past" : false, "title" : "CEO", "person" : { "first_name" : "Frank Felix", "last_name" : "Debatin", "permalink" : "frank-felix-debatin" } }, { "is_past" : false, "title" : "CFO", "person" : { "first_name" : "Peter", "last_name" : "Schweyer", "permalink" : "peter-schweyer" } } ], "competitions" : [ { "competitor" : { "name" : "Blog Talk Radio", "permalink" : "blog-talk-radio" } }, { "competitor" : { "name" : "TalkShoe", "permalink" : "talkshoe" } } ], "providerships" : [ ], "total_money_raised" : "$0", "funding_rounds" : [ ], "investments" : [ ], "acquisition" : null, "acquisitions" : [ ], "offices" : [ { "description" : "Headquarters", "address1" : "BernstorffstraÃŸe 99", "address2" : "", "zip_code" : "22765", "city" : "Hamburg", "state_code" : null, "country_code" : "DEU", "latitude" : 53.5571845, "longitude" : 9.9584473 } ], "milestones" : [ ], "ipo" : null, "video_embeds" : [ ], "screenshots" : [ { "available_sizes" : [ [ [ 150, 112 ], "assets/images/resized/0003/1232/31232v2-max-150x150.jpg" ], [ [ 250, 187 ], "assets/images/resized/0003/1232/31232v2-max-250x250.jpg" ], [ [ 450, 337 ], "assets/images/resized/0003/1232/31232v2-max-450x450.jpg" ] ], "attribution" : null } ], "external_links" : [ ], "partners" : [ ] }
-	> db.companies.find({name: "1000MIKES"}, {crunchbase_url: 1})
+	
+	> db.companies.find({name: "1000MIKES"}, {crunchbase_url: 1})  *Вывести только поле crunchbase_url из документа, где name = "1000MIKES" и  <=> SELECT crunchbase_url FROM companies WHERE name = '1000MIKES'*
+	
 	{ "_id" : ObjectId("52cdef7e4bab8bd67529a6f8"), "crunchbase_url" : "http://www.crunchbase.com/company/1000mikes" }
 	
-	> db.companies.updateOne(       { "name" : "1000MIKES" },       { $set: { "crunchbase_url" : "test_test_test" } }    );
+	> db.companies.updateOne(       { "name" : "1000MIKES" },       { $set: { "crunchbase_url" : "test_test_test" } }    ); *Обновить один документ, подставить вместо "http://www.crunchbase.com/company/1000mikes" строку "test_test_test", где name = "1000MIKES"*
 	{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
 	> db.companies.find({name: "1000MIKES"}, {crunchbase_url: 1})
 	{ "_id" : ObjectId("52cdef7e4bab8bd67529a6f8"), "crunchbase_url" : "test_test_test" }
