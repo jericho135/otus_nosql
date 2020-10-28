@@ -18,7 +18,7 @@ CentOS Linux release 7.7.1908 (Core)
         Product Name: VirtualBox
         Manufacturer: Oracle Corporation
 
-```
+
 
 [root@localhost tmp]# wget https://raw.githubusercontent.com/ozlerhakan/mongodb-json-files/master/datasets/companies.json
 --2020-10-28 16:43:03--  https://raw.githubusercontent.com/ozlerhakan/mongodb-json-files/master/datasets/companies.json
